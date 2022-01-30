@@ -3,9 +3,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from pprint import pprint
-from log import Log
-
-proxies = {} 
+from .log import Log
 
 
 class Walk_Bostad():
@@ -32,8 +30,6 @@ class Walk_Bostad():
         self._lkf()
         self._aranas()
 
-        Log(self.log)
-
     def _heimstaden(self):
         # Global
         ## HeimStaden.se + +
@@ -47,7 +43,7 @@ class Walk_Bostad():
                             "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$txtPassword": account[1],
                             "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$btnLogin": "Logga in"}
 
-                    r_get = s.get(URL, proxies=proxies)
+                    r_get = s.get(URL)
                     soup = BeautifulSoup(r_get.text, 'html.parser')
 
                     info["__VIEWSTATE"] = soup.find("input", attrs={"name": "__VIEWSTATE"})["value"]
@@ -56,7 +52,7 @@ class Walk_Bostad():
                     info["ctl00$ctl01$hdnRequestVerificationToken"] = \
                         soup.find("input", attrs={"name": "ctl00$ctl01$hdnRequestVerificationToken"})["value"]
 
-                    response_post = s.post(URL, proxies=proxies, data=info)
+                    response_post = s.post(URL, data=info)
                     soup = BeautifulSoup(response_post.text, 'html.parser')
 
                     success = True if str(soup).find(account[2]) > 0 else False
@@ -79,7 +75,7 @@ class Walk_Bostad():
                             "ctl00$cphRightFrame$LogonBox1$btnLogon": "Logga in",
                             "ctl00$cphRightFrame$ContentManagementControl1$ImageExplorerUC$fuUploadImage": "(binary)"}
 
-                    r_get = s.get(URL, proxies=proxies)
+                    r_get = s.get(URL)
                     soup = BeautifulSoup(r_get.text, 'html.parser')
 
                     info["ctl00_ToolkitScriptManager1_HiddenField"] = \
@@ -88,7 +84,7 @@ class Walk_Bostad():
                     info["__VIEWSTATEGENERATOR"] = soup.find("input", attrs={"name": "__VIEWSTATEGENERATOR"})["value"]
                     info["__EVENTVALIDATION"] = soup.find("input", attrs={"name": "__EVENTVALIDATION"})["value"]
 
-                    response_post = s.post(URL, proxies=proxies, data=info)
+                    response_post = s.post(URL, data=info)
                     soup = BeautifulSoup(response_post.text, 'html.parser')
 
                     success = not soup.find("div", attrs={"id": 'ctl00_Header1_pnlPage'}) == None
@@ -110,11 +106,11 @@ class Walk_Bostad():
                     # 1 - Login
                     info = {"Username": account[0],
                             "Password": account[1]}
-                    response_post = s.post(URL, proxies=proxies, data=info)  # Login
+                    response_post = s.post(URL, data=info)  # Login
 
                     # 2 - Kö
                     URL = "https://www.wallenstam.se/sv/mina-sidor/bostadsko/koinstallningar/"
-                    response_get = s.get(URL, proxies=proxies)  # Queue
+                    response_get = s.get(URL)  # Queue
                     soup = BeautifulSoup(response_get.text, 'html.parser')
 
                     # 3 - Update kö
@@ -122,11 +118,11 @@ class Walk_Bostad():
                         "ViewModel.FormView.UserId": soup.find("input", attrs={"id": "ViewModel_FormView_UserId"})["value"],
                         "renewButton": "Förnya köplats"}
                     URL = "https://www.wallenstam.se/sv/mina-sidor/bostadsko/koinstallningar/UpdateQueue/"
-                    response_post = s.post(URL, proxies=proxies, data=info)  # Update queue
+                    response_post = s.post(URL, data=info)  # Update queue
 
                     # 4 - Check
                     URL = "https://www.wallenstam.se/sv/mina-sidor/bostadsko/koinstallningar/"
-                    response_get = s.get(URL, proxies=proxies)  # Queue
+                    response_get = s.get(URL)  # Queue
                     soup = BeautifulSoup(response_get.text, 'html.parser')
 
                     success = True if str(soup).find(str(datetime.today() + relativedelta(years=1))[:10]) > 0 else False
@@ -148,7 +144,7 @@ class Walk_Bostad():
                             "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$txtPassword": account[1],
                             "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$btnLogin": "Logga in"}
 
-                    r_get = s.get(URL, proxies=proxies)
+                    r_get = s.get(URL)
                     soup = BeautifulSoup(r_get.text, 'html.parser')
 
                     info["__VIEWSTATE"] = soup.find("input", attrs={"name": "__VIEWSTATE"})["value"]
@@ -156,7 +152,7 @@ class Walk_Bostad():
                     info["__EVENTVALIDATION"] = soup.find("input", attrs={"name": "__EVENTVALIDATION"})["value"]
                     info["ctl00$ctl01$hdnRequestVerificationToken"] = soup.find("input", attrs={"name": "ctl00$ctl01$hdnRequestVerificationToken"})["value"]
 
-                    response_post = s.post(URL, proxies=proxies, data=info)
+                    response_post = s.post(URL, data=info)
                     soup = BeautifulSoup(response_post.text, 'html.parser')
 
                     success = True if str(soup).find(str(datetime.today() + relativedelta(months=6))[:7]) > 0 else False
@@ -179,14 +175,14 @@ class Walk_Bostad():
                             "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col1$LoginControl1$txtPassword": account[1],
                             "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col1$LoginControl1$btnLogin": "Logga in"}
 
-                    r_get = s.get(URL, proxies=proxies)
+                    r_get = s.get(URL)
                     soup = BeautifulSoup(r_get.text, 'html.parser')
                     
                     info["__VIEWSTATE"] = soup.find("input", attrs={"name": "__VIEWSTATE"})["value"]
                     info["__VIEWSTATEGENERATOR"] = soup.find("input", attrs={"name": "__VIEWSTATEGENERATOR"})["value"]
                     info["__EVENTVALIDATION"] = soup.find("input", attrs={"name": "__EVENTVALIDATION"})["value"]
 
-                    response_post = s.post(URL, proxies=proxies, data=info)
+                    response_post = s.post(URL, data=info)
                     soup = BeautifulSoup(response_post.text, 'html.parser')
                     
                     success = True if account[2] in str(soup) else False
@@ -209,14 +205,14 @@ class Walk_Bostad():
                             "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$txtPassword": account[1],
                             "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$btnLogin": "Logga in"}
 
-                    r_get = s.get(URL, proxies=proxies)
+                    r_get = s.get(URL)
                     soup = BeautifulSoup(r_get.text, 'html.parser')
 
                     info["__VIEWSTATE"] = soup.find("input", attrs={"name": "__VIEWSTATE"})["value"]
                     info["__VIEWSTATEGENERATOR"] = soup.find("input", attrs={"name": "__VIEWSTATEGENERATOR"})["value"]
                     info["__EVENTVALIDATION"] = soup.find("input", attrs={"name": "__EVENTVALIDATION"})["value"]
 
-                    response_post = s.post(URL, proxies=proxies, data=info)
+                    response_post = s.post(URL, data=info)
                     soup = BeautifulSoup(response_post.text, 'html.parser')
 
                     success = True if str(soup).find(str(datetime.today() + relativedelta(years=1))[:10]) > 0 else False
@@ -238,7 +234,7 @@ class Walk_Bostad():
                             "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col1$LoginControl$txtPassword": account[1],
                             "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col1$LoginControl$btnLogin": "Logga in"}
 
-                    r_get = s.get(URL, proxies=proxies)
+                    r_get = s.get(URL)
                     soup = BeautifulSoup(r_get.text, 'html.parser')
 
                     info["ctl00$ctl01$hdnRequestVerificationToken"] = \
@@ -247,7 +243,7 @@ class Walk_Bostad():
                     info["__VIEWSTATEGENERATOR"] = soup.find("input", attrs={"name": "__VIEWSTATEGENERATOR"})["value"]
                     info["__EVENTVALIDATION"] = soup.find("input", attrs={"name": "__EVENTVALIDATION"})["value"]
 
-                    response_post = s.post(URL, proxies=proxies, data=info)
+                    response_post = s.post(URL, data=info)
                     soup = BeautifulSoup(response_post.text, 'html.parser')
 
                     searchDate = datetime.today() + relativedelta(years=1)
@@ -272,7 +268,7 @@ class Walk_Bostad():
                             "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$txtPassword": account[1],
                             "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$btnLogin": "Logga in"}
 
-                    r_get = s.get(URL, proxies=proxies)
+                    r_get = s.get(URL)
                     soup = BeautifulSoup(r_get.text, 'html.parser')
 
                     info["ctl00$ctl01$hdnRequestVerificationToken"] = \
@@ -281,7 +277,7 @@ class Walk_Bostad():
                     info["__VIEWSTATEGENERATOR"] = soup.find("input", attrs={"name": "__VIEWSTATEGENERATOR"})["value"]
                     info["__EVENTVALIDATION"] = soup.find("input", attrs={"name": "__EVENTVALIDATION"})["value"]
 
-                    response_post = s.post(URL, proxies=proxies, data=info)
+                    response_post = s.post(URL, data=info)
                     soup = BeautifulSoup(response_post.text, 'html.parser')
 
                     success = True if str(soup).find(str(datetime.today() + relativedelta(years=1))[:10]) > 0 else False
@@ -302,7 +298,7 @@ class Walk_Bostad():
                 with requests.session() as s:
                     info = {}
 
-                    r_get = s.get(URL, proxies=proxies)
+                    r_get = s.get(URL)
                     soup = BeautifulSoup(r_get.text, 'html.parser')
                     info["__EVENTTARGET"] = "DoLogin"
                     info["__EVENTARGUMENT"] = '{"method":"LOGIN","username":"' + account[0] + '","password":"' + account[
@@ -310,7 +306,7 @@ class Walk_Bostad():
                     info["__VIEWSTATE"] = soup.find("input", attrs={"name": "__VIEWSTATE"})["value"]
                     info["__VIEWSTATEGENERATOR"] = soup.find("input", attrs={"name": "__VIEWSTATEGENERATOR"})["value"]
 
-                    response_post = s.post(URL, proxies=proxies, data=info)
+                    response_post = s.post(URL, data=info)
                     soup = BeautifulSoup(response_post.text, 'html.parser')
 
                     success = not soup.find("span", attrs={
@@ -334,7 +330,7 @@ class Walk_Bostad():
                             "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$txtPassword": account[1],
                             "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$btnLogin": "Logga in"}
 
-                    r_get = s.get(URL, proxies=proxies)
+                    r_get = s.get(URL)
                     soup = BeautifulSoup(r_get.text, 'html.parser')
 
                     info["__VIEWSTATE"] = soup.find("input", attrs={"name": "__VIEWSTATE"})["value"]
@@ -343,7 +339,7 @@ class Walk_Bostad():
                     info["ctl00$ctl01$hdnRequestVerificationToken"] = \
                         soup.find("input", attrs={"name": "ctl00$ctl01$hdnRequestVerificationToken"})["value"]
 
-                    response_post = s.post(URL, proxies=proxies, data=info)
+                    response_post = s.post(URL, data=info)
                     soup = BeautifulSoup(response_post.text, 'html.parser')
 
                     success = True if str(soup).find(str(datetime.today() + relativedelta(years=1))[:10]) > 0 else False
@@ -366,14 +362,14 @@ class Walk_Bostad():
                             "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$txtPassword": account[1],
                             "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$btnLogin": "Logga in"}
 
-                    r_get = s.get(URL, proxies=proxies)
+                    r_get = s.get(URL)
                     soup = BeautifulSoup(r_get.text, 'html.parser')
 
                     info["__VIEWSTATE"] = soup.find("input", attrs={"name": "__VIEWSTATE"})["value"]
                     info["__VIEWSTATEGENERATOR"] = soup.find("input", attrs={"name": "__VIEWSTATEGENERATOR"})["value"]
                     info["__EVENTVALIDATION"] = soup.find("input", attrs={"name": "__EVENTVALIDATION"})["value"]
 
-                    response_post = s.post(URL, proxies=proxies, data=info)
+                    response_post = s.post(URL, data=info)
                     soup = BeautifulSoup(response_post.text, 'html.parser')
 
                     success = True if str(soup).find(str(datetime.today() + relativedelta(years=1))[:10]) > 0 else False
@@ -396,14 +392,14 @@ class Walk_Bostad():
                             "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$txtPassword": account[1],
                             "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$btnLogin": "Logga in"}
 
-                    r_get = s.get(URL, proxies=proxies)
+                    r_get = s.get(URL)
                     soup = BeautifulSoup(r_get.text, 'html.parser')
 
                     info["__VIEWSTATE"] = soup.find("input", attrs={"name": "__VIEWSTATE"})["value"]
                     info["__VIEWSTATEGENERATOR"] = soup.find("input", attrs={"name": "__VIEWSTATEGENERATOR"})["value"]
                     info["__EVENTVALIDATION"] = soup.find("input", attrs={"name": "__EVENTVALIDATION"})["value"]
 
-                    response_post = s.post(URL, proxies=proxies, data=info)
+                    response_post = s.post(URL, data=info)
                     soup = BeautifulSoup(response_post.text, 'html.parser')
 
                     success = True if str(soup).find(" poäng)") > 0 else False
@@ -426,14 +422,14 @@ class Walk_Bostad():
                             "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$txtPassword": account[1],
                             "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$btnLogin": "Logga in"}
 
-                    r_get = s.get(URL, proxies=proxies)
+                    r_get = s.get(URL)
                     soup = BeautifulSoup(r_get.text, 'html.parser')
 
                     info["__VIEWSTATE"] = soup.find("input", attrs={"name": "__VIEWSTATE"})["value"]
                     info["__VIEWSTATEGENERATOR"] = soup.find("input", attrs={"name": "__VIEWSTATEGENERATOR"})["value"]
                     info["__EVENTVALIDATION"] = soup.find("input", attrs={"name": "__EVENTVALIDATION"})["value"]
 
-                    response_post = s.post(URL, proxies=proxies, data=info)
+                    response_post = s.post(URL, data=info)
                     soup = BeautifulSoup(response_post.text, 'html.parser')
 
                     success = True if str(soup).find(account[2]) > 0 else False
@@ -456,7 +452,7 @@ class Walk_Bostad():
                             "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$txtPassword": account[1],
                             "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$btnLogin": "Logga in"}
 
-                    r_get = s.get(URL, proxies=proxies)
+                    r_get = s.get(URL)
                     soup = BeautifulSoup(r_get.text, 'html.parser')
 
                     info["__VIEWSTATE"] = soup.find("input", attrs={"name": "__VIEWSTATE"})["value"]
@@ -465,7 +461,7 @@ class Walk_Bostad():
                     info["ctl00$ctl01$hdnRequestVerificationToken"] = \
                         soup.find("input", attrs={"name": "ctl00$ctl01$hdnRequestVerificationToken"})["value"]
 
-                    response_post = s.post(URL, proxies=proxies, data=info)
+                    response_post = s.post(URL, data=info)
                     soup = BeautifulSoup(response_post.text, 'html.parser')
 
                     success = True if str(soup).find(str(datetime.today() + relativedelta(years=1))[:10]) > 0 else False
@@ -488,7 +484,7 @@ class Walk_Bostad():
                             "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$txtPassword": account[1],
                             "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$btnLogin": "Logga in"}
 
-                    r_get = s.get(URL, proxies=proxies)
+                    r_get = s.get(URL)
                     soup = BeautifulSoup(r_get.text, 'html.parser')
 
                     info["__VIEWSTATE"] = soup.find("input", attrs={"name": "__VIEWSTATE"})["value"]
@@ -497,7 +493,7 @@ class Walk_Bostad():
                     info["ctl00$ctl01$hdnRequestVerificationToken"] = \
                         soup.find("input", attrs={"name": "ctl00$ctl01$hdnRequestVerificationToken"})["value"]
 
-                    response_post = s.post(URL, proxies=proxies, data=info)
+                    response_post = s.post(URL, data=info)
                     soup = BeautifulSoup(response_post.text, 'html.parser')
 
                     success = True if str(soup).find(account[3]) > 0 else False
@@ -520,14 +516,14 @@ class Walk_Bostad():
                             "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$txtPassword": account[1],
                             "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$btnLogin": "Logga in"}
 
-                    r_get = s.get(URL, proxies=proxies)
+                    r_get = s.get(URL)
                     soup = BeautifulSoup(r_get.text, 'html.parser')
 
                     info["__VIEWSTATE"] = soup.find("input", attrs={"name": "__VIEWSTATE"})["value"]
                     info["__VIEWSTATEGENERATOR"] = soup.find("input", attrs={"name": "__VIEWSTATEGENERATOR"})["value"]
                     info["__EVENTVALIDATION"] = soup.find("input", attrs={"name": "__EVENTVALIDATION"})["value"]
 
-                    response_post = s.post(URL, proxies=proxies, data=info)
+                    response_post = s.post(URL, data=info)
                     soup = BeautifulSoup(response_post.text, 'html.parser')
 
                     success = True if str(soup).find(account[3]) > 0 else False
@@ -551,14 +547,14 @@ class Walk_Bostad():
                             "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$txtPassword": account[1],
                             "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$btnLogin": "Logga in"}
 
-                    r_get = s.get(URL, proxies=proxies)
+                    r_get = s.get(URL)
                     soup = BeautifulSoup(r_get.text, 'html.parser')
 
                     info["__VIEWSTATE"] = soup.find("input", attrs={"name": "__VIEWSTATE"})["value"]
                     info["__VIEWSTATEGENERATOR"] = soup.find("input", attrs={"name": "__VIEWSTATEGENERATOR"})["value"]
                     info["__EVENTVALIDATION"] = soup.find("input", attrs={"name": "__EVENTVALIDATION"})["value"]
 
-                    response_post = s.post(URL, proxies=proxies, data=info)
+                    response_post = s.post(URL, data=info)
 
                     # Update
                     info = {"ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col1$txtNoOfAdults": "2",
@@ -595,14 +591,14 @@ class Walk_Bostad():
                             "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col1$btnSave": "Spara"}
                     URL = "https://www.tyresobostader.se/mina-sidor/intresseanmalan/lagenhet"
 
-                    r_get = s.get(URL, proxies=proxies)
+                    r_get = s.get(URL)
                     soup = BeautifulSoup(r_get.text, 'html.parser')
 
                     info["__VIEWSTATE"] = soup.find("input", attrs={"name": "__VIEWSTATE"})["value"]
                     info["__VIEWSTATEGENERATOR"] = soup.find("input", attrs={"name": "__VIEWSTATEGENERATOR"})["value"]
                     info["__EVENTVALIDATION"] = soup.find("input", attrs={"name": "__EVENTVALIDATION"})["value"]
 
-                    response_post = s.post(URL, proxies=proxies, data=info)
+                    response_post = s.post(URL, data=info)
                     soup = BeautifulSoup(response_post.text, 'html.parser')
 
                     success = True if str(soup).find(str(datetime.today() + relativedelta(years=1))[:10]) > 0 else False
@@ -625,7 +621,7 @@ class Walk_Bostad():
                             "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$txtPassword": account[1],
                             "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$btnLogin": "Logga in"}
 
-                    r_get = s.get(URL, proxies=proxies)
+                    r_get = s.get(URL)
                     soup = BeautifulSoup(r_get.text, 'html.parser')
 
                     info["ctl00$ctl01$hdnRequestVerificationToken"] = \
@@ -634,12 +630,11 @@ class Walk_Bostad():
                     info["__VIEWSTATEGENERATOR"] = soup.find("input", attrs={"name": "__VIEWSTATEGENERATOR"})["value"]
                     info["__EVENTVALIDATION"] = soup.find("input", attrs={"name": "__EVENTVALIDATION"})["value"]
 
-                    response_post = s.post(URL, proxies=proxies, data=info)
+                    response_post = s.post(URL, data=info)
                     soup = BeautifulSoup(response_post.text, 'html.parser')
 
                     try:
-                        r_get = s.get(soup.find("a", attrs={"id": "ctl00_ctl01_ucTopLinks_hlMyPages"})["href"],
-                                      proxies=proxies)
+                        r_get = s.get(soup.find("a", attrs={"id": "ctl00_ctl01_ucTopLinks_hlMyPages"})["href"])
                         soup = BeautifulSoup(r_get.text, 'html.parser')
                     except:
                         pass
@@ -664,14 +659,14 @@ class Walk_Bostad():
                             "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$txtPassword": account[1],
                             "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$btnLogin": "Logga in"}
 
-                    r_get = s.get(URL, proxies=proxies)
+                    r_get = s.get(URL)
                     soup = BeautifulSoup(r_get.text, 'html.parser')
 
                     info["__VIEWSTATE"] = soup.find("input", attrs={"name": "__VIEWSTATE"})["value"]
                     info["__VIEWSTATEGENERATOR"] = soup.find("input", attrs={"name": "__VIEWSTATEGENERATOR"})["value"]
                     info["__EVENTVALIDATION"] = soup.find("input", attrs={"name": "__EVENTVALIDATION"})["value"]
 
-                    response_post = s.post(URL, proxies=proxies, data=info)
+                    response_post = s.post(URL, data=info)
                     soup = BeautifulSoup(response_post.text, 'html.parser')
 
                     success = True if str(soup).find(account[3]) > 0 else False
@@ -681,5 +676,9 @@ class Walk_Bostad():
             message = "---" + message
         self.log.append(message)
 
+def run():
+    walk_obj = Walk_Bostad()
+    Log(walk_obj.log)
+    
 if __name__ == "__main__":
-    Walk_Bostad()
+    run()
