@@ -8,13 +8,6 @@ proxies = {}
 
 
 class Dump_Log_To_Telegram:
-
-    """
-    pip install telegram-send
-    telegram-send --configure
-    1878184176:AAGA3jOVwcNMrPEIesaDGtssLHIr67OcRuw
-    """
-
     def __init__(self, log):
         telegram_send.send(messages=[self.parse_log(log)])
 
