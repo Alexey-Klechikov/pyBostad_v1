@@ -1,31 +1,12 @@
-import requests, telegram_send
+import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-
+from pprint import pprint
+from log import Log
 
 proxies = {} 
 
-
-class Dump_Log_To_Telegram:
-    def __init__(self, log):
-        telegram_send.send(messages=[self.parse_log(log)])
-
-    def parse_log(self, log):
-
-        message = ''
-
-        for row in log:
-            site = row.split(': ')[0]
-            message += f'{site}\n'
-
-            statuses = row.split('(')[1:]
-            for s in statuses:
-                message += f'> {s.split(")")[0]}\n'
-
-            message += '\n'
-
-        return message
 
 class Walk_Bostad():
 
@@ -51,7 +32,7 @@ class Walk_Bostad():
         self._lkf()
         self._aranas()
 
-        Dump_Log_To_Telegram(self.log)
+        Log(self.log)
 
     def _heimstaden(self):
         # Global
@@ -200,15 +181,15 @@ class Walk_Bostad():
 
                     r_get = s.get(URL, proxies=proxies)
                     soup = BeautifulSoup(r_get.text, 'html.parser')
-
+                    
                     info["__VIEWSTATE"] = soup.find("input", attrs={"name": "__VIEWSTATE"})["value"]
                     info["__VIEWSTATEGENERATOR"] = soup.find("input", attrs={"name": "__VIEWSTATEGENERATOR"})["value"]
                     info["__EVENTVALIDATION"] = soup.find("input", attrs={"name": "__EVENTVALIDATION"})["value"]
 
                     response_post = s.post(URL, proxies=proxies, data=info)
                     soup = BeautifulSoup(response_post.text, 'html.parser')
-
-                    success = True if str(soup).find(str(datetime.today() + relativedelta(months=6))[:7]) > 0 else False
+                    
+                    success = True if account[2] in str(soup) else False
                     message += ("(OK - " if success else "(Error - ") + account[2] + ") "
                     message = ("" if success else "---") + message
         except:
