@@ -3,7 +3,6 @@ import telegram_send
 
 class Log:
     def __init__(self, log):
-        print('4')
         telegram_send.send(messages=[self.parse_log(log)])
 
     def parse_log(self, log):
