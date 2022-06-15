@@ -12,7 +12,6 @@ class Walk_Bostad():
         self.log = []
 
         self._heimstaden()
-        self._akelius()
         self._wallenstram()
         self._rikshem()
         self._deromeFastighet()
@@ -56,38 +55,6 @@ class Walk_Bostad():
                     soup = BeautifulSoup(response_post.text, 'html.parser')
 
                     success = True if str(soup).find(account[2]) > 0 else False
-                    message += ("(OK - " if success else "(Error - ") + account[2] + ") "
-                    message = ("" if success else "---") + message
-        except:
-            message = "---" + message
-        self.log.append(message)
-
-    def _akelius(self):
-        # Global
-        ## Akelius.se +
-        message, ACCOUNTS = "Global, Akelius: ", [["198904041236", "C804BBa0", "Alexey Klechikov"]]
-        try:
-            for account in ACCOUNTS:
-                URL = "https://xpdapi.akelius.se/IncitXpandWeb07038_1/Internet/Cm/Logon.aspx"
-                with requests.session() as s:
-                    info = {"ctl00$cphRightFrame$LogonBox1$txtUserName": account[0],
-                            "ctl00$cphRightFrame$LogonBox1$ctl00_cphRightFrame_LogonBox1_ctl06": account[1],
-                            "ctl00$cphRightFrame$LogonBox1$btnLogon": "Logga in",
-                            "ctl00$cphRightFrame$ContentManagementControl1$ImageExplorerUC$fuUploadImage": "(binary)"}
-
-                    r_get = s.get(URL)
-                    soup = BeautifulSoup(r_get.text, 'html.parser')
-
-                    info["ctl00_ToolkitScriptManager1_HiddenField"] = \
-                        soup.find("input", attrs={"name": "ctl00_ToolkitScriptManager1_HiddenField"})["value"]
-                    info["__VIEWSTATE"] = soup.find("input", attrs={"name": "__VIEWSTATE"})["value"]
-                    info["__VIEWSTATEGENERATOR"] = soup.find("input", attrs={"name": "__VIEWSTATEGENERATOR"})["value"]
-                    info["__EVENTVALIDATION"] = soup.find("input", attrs={"name": "__EVENTVALIDATION"})["value"]
-
-                    response_post = s.post(URL, data=info)
-                    soup = BeautifulSoup(response_post.text, 'html.parser')
-
-                    success = not soup.find("div", attrs={"id": 'ctl00_Header1_pnlPage'}) == None
                     message += ("(OK - " if success else "(Error - ") + account[2] + ") "
                     message = ("" if success else "---") + message
         except:
