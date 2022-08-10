@@ -11,12 +11,12 @@ class Walk_Bostad():
     def __init__(self):
         self.log = []
 
+        self._vasbyhem()
         self._heimstaden()
         self._wallenstram()
         self._rikshem()
         self._deromeFastighet()
         self._bostaden_umea()
-        self._vasbyhem()
         self._upplands_brohus()
         self._hebaFast()
         self._hasselbyHem()
@@ -28,7 +28,7 @@ class Walk_Bostad():
         self._tyresoBostader()
         self._lkf()
         self._aranas()
-
+        
     def _heimstaden(self):
         # Global
         ## HeimStaden.se + +
@@ -229,25 +229,22 @@ class Walk_Bostad():
                                                       ["8903057985", "Malvina123!", "Elena Belan"]]
         try:
             for account in ACCOUNTS:
-                URL = "https://www.vasbyhem.se/mina-sidor/logga-in"
+                URL = "https://www.vasbyhem.se/Account/Login"
                 with requests.session() as s:
-                    info = {"ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$txtUserID": account[0],
-                            "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$txtPassword": account[1],
-                            "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$btnLogin": "Logga in"}
+                    info = {"UserID": account[0],
+                            "Password": account[1],
+                            "RememberMe": "true"}
 
                     r_get = s.get(URL)
                     soup = BeautifulSoup(r_get.text, 'html.parser')
 
-                    info["ctl00$ctl01$hdnRequestVerificationToken"] = \
-                        soup.find("input", attrs={"name": "ctl00$ctl01$hdnRequestVerificationToken"})["value"]
-                    info["__VIEWSTATE"] = soup.find("input", attrs={"name": "__VIEWSTATE"})["value"]
-                    info["__VIEWSTATEGENERATOR"] = soup.find("input", attrs={"name": "__VIEWSTATEGENERATOR"})["value"]
-                    info["__EVENTVALIDATION"] = soup.find("input", attrs={"name": "__EVENTVALIDATION"})["value"]
-
+                    info["__RequestVerificationToken"] = \
+                        soup.find("input", attrs={"name": "__RequestVerificationToken"})["value"]
+                    
                     response_post = s.post(URL, data=info)
                     soup = BeautifulSoup(response_post.text, 'html.parser')
 
-                    success = True if str(soup).find(str(datetime.today() + relativedelta(years=1))[:10]) > 0 else False
+                    success = True if str(soup).find(account[2]) > 0 else False
                     message += ("(OK - " if success else "(Error - ") + account[2] + ") "
                     message = ("" if success else "---") + message
         except:
