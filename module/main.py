@@ -195,27 +195,35 @@ class Walk_Bostad():
         message, ACCOUNTS = "Umea, Bostaden: ", [["Alexey", "C804BBa0", "Alexey Klechikov"]]
         try:
             for account in ACCOUNTS:
-                URL = 'https://www.bostaden.umea.se'
+                URL = 'https://www.bostaden.umea.se/mina-sidor/logga-in'
                 with requests.session() as s:
-                    info = {"ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col1$LoginControl$txtUserID": account[0],
-                            "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col1$LoginControl$txtPassword": account[1],
-                            "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col1$LoginControl$btnLogin": "Logga in"}
+                    headers = {
+                        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36",
+                    }
+                    
+                    info = {
+                        "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$txtUserID": account[0],
+                        "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$txtPassword": account[1],
+                        "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$btnLogin": "Logga in",
+                        "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$hdnSelectedTab": "p"
+                        }
 
                     r_get = s.get(URL)
                     soup = BeautifulSoup(r_get.text, 'html.parser')
 
-                    info["ctl00$ctl01$hdnRequestVerificationToken"] = \
-                        soup.find("input", attrs={"name": "ctl00$ctl01$hdnRequestVerificationToken"})["value"]
-                    info["__VIEWSTATE"] = soup.find("input", attrs={"name": "__VIEWSTATE"})["value"]
-                    info["__VIEWSTATEGENERATOR"] = soup.find("input", attrs={"name": "__VIEWSTATEGENERATOR"})["value"]
-                    info["__EVENTVALIDATION"] = soup.find("input", attrs={"name": "__EVENTVALIDATION"})["value"]
+                    for field in [
+                        "ctl00$ctl01$hdnRequestVerificationToken", 
+                        "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$hdnSession", 
+                        "__VIEWSTATE", 
+                        "__VIEWSTATEGENERATOR", 
+                        "__EVENTVALIDATION",
+                        ]:
+                        info[field] = soup.find("input", attrs={"name": field})["value"]
 
-                    response_post = s.post(URL, data=info)
+                    response_post = s.post(URL, data=info, headers=headers)
                     soup = BeautifulSoup(response_post.text, 'html.parser')
-
-                    searchDate = datetime.today() + relativedelta(years=1)
-                    success = True if str(soup).find(
-                        f"{searchDate.month}/{searchDate.day}/{searchDate.year}") > 0 else False
+                    
+                    success = True if account[2] in str(soup) else False
                     message += ("(OK - " if success else "(Error - ") + account[2] + ") "
                     message = ("" if success else "---") + message
         except:
