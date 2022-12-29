@@ -1,4 +1,4 @@
-import telegram_send
+import telegram_send # type: ignore
 
 
 class Log:
