@@ -4,6 +4,7 @@ from datetime import datetime
 from dataclasses import dataclass
 from dateutil.relativedelta import relativedelta
 from typing import List
+import logging
 
 from .log import Log
 
@@ -42,7 +43,7 @@ def _ping_generic_schema(
                 soup = BeautifulSoup(r_get.text, "html.parser")
 
                 for field in dynamic_fields:
-                    info[field] = soup.find("input", attrs={"name": field})["value"]  # type: ignore
+                    info[field] = soup.find("input", attrs={"name": field}).get("value", "")  # type: ignore
 
                 response_post = s.post(url, data=info, headers=headers)
                 soup = BeautifulSoup(response_post.text, "html.parser")
@@ -53,7 +54,9 @@ def _ping_generic_schema(
                 )
                 message = ("" if success else "---") + message
 
-    except:
+    except Exception as e:
+        logging.error(e)
+
         message = "---" + message
 
     return message
@@ -655,8 +658,127 @@ def tyreso_bostader():
     log.append(message)
 
 
+def bjuvs_bostader():
+    url = "https://bostad.bjuvsbostader.se/mina-sidor/logga-in"
+    base = "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$"
+    accounts = [
+        Account("8904041236", "C804BBa0", "Alexey Klechikov"),
+        Account("8903057985", "Malvina123!", "Elena Belan"),
+    ]
+    static_fields = {
+        "{base}txtUserID": "{login}",
+        "{base}txtPassword": "{password}",
+        "{base}btnLogin": "Logga in",
+    }
+    dynamic_fields = ["__VIEWSTATE", "__VIEWSTATEGENERATOR", "__EVENTVALIDATION"]
+
+    message = _ping_generic_schema(
+        "Helsinborg, Bjuv: ",
+        url,
+        base,
+        accounts,
+        static_fields,
+        dynamic_fields,
+    )
+
+    log.append(message)
+
+
+def stangastaden():
+    url = "https://www.stangastaden.se/loggain"
+    base = ""
+    accounts = [Account("8904041236", "C804BBa0", "Alexey Klechikov")]
+    static_fields = {
+        "username": "{login}",
+        "password": "{password}",
+    }
+    dynamic_fields = []
+
+    message = _ping_generic_schema(
+        "Lindkoping, Stangastaden: ",
+        url,
+        base,
+        accounts,
+        static_fields,
+        dynamic_fields,
+    )
+
+    log.append(message)
+
+
+def malmocityfastigheter():
+    url = "https://minasidor.malmocityfastigheter.se//CK/User/MyPagesLogin.aspx"
+    base = "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col1$LoginControl1$"
+    accounts = [
+        Account("alexey.klechikov@gmail.com", "C804BBa0", "Alexey Klechikov"),
+        Account("belan.elena89@gmail.com", "Malvina123!", "Elena Belan"),
+    ]
+    static_fields = {
+        "{base}txtUserID": "{login}",
+        "{base}txtPassword": "{password}",
+        "{base}btnLogin": "Logga in",
+        "{base}hdnSelectedTab": "p",
+    }
+    dynamic_fields = [
+        "__VIEWSTATE",
+        "__VIEWSTATEGENERATOR",
+        "__EVENTVALIDATION",
+        "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col1$LoginControl1$hdnSession",
+        "ctl00$ctl01$hdnRequestVerificationToken",
+    ]
+
+    message = _ping_generic_schema(
+        "Malmo, MalmoCityFastigheter: ",
+        url,
+        base,
+        accounts,
+        static_fields,
+        dynamic_fields,
+    )
+
+    log.append(message)
+
+def eda_bostad():
+    url = "https://marknad-bostadsbolaget.eda.se//User/MyPagesLogin.aspx"
+    base = "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$"
+    accounts = [
+        Account("198904041236", "C804BBa0", "Alexey Klechikov"),
+        Account("198903057985", "Malvina123!", "Elena Belan"),
+    ]
+    static_fields = {
+        "{base}txtUserID": "{login}",
+        "{base}txtPassword": "{password}",
+        "{base}btnLogin": "Logga in",
+        "{base}hdnSelectedTab": "p",
+    }
+    dynamic_fields = [
+        "__VIEWSTATE",
+        "__VIEWSTATEGENERATOR",
+        "__EVENTVALIDATION",
+        "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$hdnSession",
+        "ctl00$ctl01$hdnRequestVerificationToken",
+    ]
+
+    message = _ping_generic_schema(
+        "Eda, Eda Bostad: ",
+        url,
+        base,
+        accounts,
+        static_fields,
+        dynamic_fields,
+    )
+
+    log.append(message)
+
 def run():
+    # Manual run
+    # https://www.homeq.se/
+
     # Generic schema
+    eda_bostad()
+    malmocityfastigheter()
+    stangastaden()
+    bjuvs_bostader()
     heimstaden()
     rikshem()
     bostaden_umea()
