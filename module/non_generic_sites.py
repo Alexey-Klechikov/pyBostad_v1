@@ -1,9 +1,10 @@
+from datetime import datetime
+
 import aiohttp  # type: ignore
 from bs4 import BeautifulSoup  # type: ignore
 from dateutil.relativedelta import relativedelta  # type: ignore
-from datetime import datetime
 
-from .utils import _post, _get
+from .utils import _get, _post
 
 
 async def wallenstram() -> str:

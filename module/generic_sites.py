@@ -435,7 +435,7 @@ async def stangastaden() -> str:
         "username": "{login}",
         "password": "{password}",
     }
-    dynamic_fields = []
+    dynamic_fields: list = []
 
     message = await ping_generic_schema(
         "Lindkoping, Stangastaden: ",
