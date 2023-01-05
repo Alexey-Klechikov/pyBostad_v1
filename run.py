@@ -6,18 +6,11 @@ from module import generic_sites, non_generic_sites, utils
 
 
 async def run():
-    SCRIPTS = (
+    SCRIPTS = [
         i[1]
-        for i in (
-            itertools.chain.from_iterable(
-                [
-                    getmembers(file, isfunction)
-                    for file in (generic_sites, non_generic_sites)
-                ]
-            )
-        )
+        for i in getmembers(non_generic_sites, isfunction)
         if i[0] not in ("_get", "_post", "dataclass", "ping_generic_schema")
-    )
+    ] + [site.ping for site in generic_sites.SITES]
 
     tasks = tuple(map(lambda s: asyncio.create_task(s()), SCRIPTS))
     responses = await asyncio.gather(*tasks)
