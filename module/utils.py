@@ -1,11 +1,10 @@
-import telegram_send  # type: ignore
-import aiohttp  # type: ignore
-from bs4 import BeautifulSoup  # type: ignore
+import logging
 from dataclasses import dataclass
 from typing import List
 
-
-import logging
+import aiohttp  # type: ignore
+import telegram_send  # type: ignore
+from bs4 import BeautifulSoup  # type: ignore
 
 
 @dataclass
