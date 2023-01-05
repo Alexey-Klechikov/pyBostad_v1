@@ -1,7 +1,7 @@
 import aiohttp  # type: ignore
 from bs4 import BeautifulSoup  # type: ignore
-from .utils import _post, _get
 from dateutil.relativedelta import relativedelta  # type: ignore
+from .utils import _post, _get
 from datetime import datetime
 
 
@@ -17,7 +17,8 @@ async def wallenstram() -> str:
                 url = "https://www.wallenstam.se/sv/mina-sidor/logga-in/Login/"
 
                 # 1 - Login
-                info = {"Username": account[0], "Password": account[1]}
+                info = {
+                    "Username": account[0], "Password": account[1]}
                 await _post(session, url, data=info, headers={})  # Login
 
                 # 2 - Kö
