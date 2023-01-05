@@ -1,5 +1,3 @@
-from dataclasses import dataclass
-
 from .utils import Account, Site
 
 SITES = (

@@ -1,11 +1,10 @@
 import asyncio
 from inspect import getmembers, isfunction
-import itertools
 
 from module import generic_sites, non_generic_sites, utils
 
 
-async def run():
+async def main():
     SCRIPTS = [
         i[1]
         for i in getmembers(non_generic_sites, isfunction)
@@ -18,4 +17,4 @@ async def run():
     utils.Log(responses)
 
 
-asyncio.run(run())
+asyncio.run(main())
