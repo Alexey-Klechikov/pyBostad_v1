@@ -4,9 +4,10 @@ import itertools
 
 from module import generic_sites, non_generic_sites, utils
 
+
 async def run():
-    SCRIPTS = [
-        i
+    SCRIPTS = (
+        i[1]
         for i in (
             itertools.chain.from_iterable(
                 [
@@ -16,9 +17,9 @@ async def run():
             )
         )
         if i[0] not in ("_get", "_post", "dataclass", "ping_generic_schema")
-    ]
+    )
 
-    tasks = tuple(map(lambda s: asyncio.create_task(s[1]()), SCRIPTS))
+    tasks = tuple(map(lambda s: asyncio.create_task(s()), SCRIPTS))
     responses = await asyncio.gather(*tasks)
 
     utils.Log(responses)

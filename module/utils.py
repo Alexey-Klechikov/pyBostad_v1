@@ -76,8 +76,8 @@ async def ping_generic_schema(
                 soup = BeautifulSoup(response_post, "html.parser")
 
                 success = True if str(soup).find(account.username) > 0 else False
-                message += (
-                    ("(OK - " if success else "(Error - ") + account.username + ") "
+                message += "".join(
+                    ["(", ("OK" if success else "Error"), " - ", account.username, ") "]
                 )
                 message = ("" if success else "---") + message
 
