@@ -3,6 +3,8 @@ import aiohttp  # type: ignore
 from bs4 import BeautifulSoup  # type: ignore
 from dataclasses import dataclass
 from typing import List
+
+
 import logging
 
 
