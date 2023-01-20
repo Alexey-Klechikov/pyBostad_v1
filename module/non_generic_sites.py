@@ -4,13 +4,14 @@ import aiohttp  # type: ignore
 from bs4 import BeautifulSoup  # type: ignore
 from dateutil.relativedelta import relativedelta  # type: ignore
 
+from .secrets import PASSWORDS
 from .utils import _get, _post
 
 
 async def wallenstram() -> str:
     message, ACCOUNTS = "Global, Wallenstam: ", [
-        ["alexey.klechikov@gmail.com", "=Munk6V7", "Alexey Klechikov"],
-        ["elena.belan@hotmail.com", "GForward!5", "Elena Belan"],
+        ["alexey.klechikov@gmail.com", PASSWORDS["alex_2"], "Alexey Klechikov"],
+        ["elena.belan@hotmail.com", PASSWORDS["elena_2"], "Elena Belan"],
     ]
 
     try:
@@ -66,8 +67,8 @@ async def wallenstram() -> str:
 
 async def tyreso_bostader() -> str:
     message, ACCOUNTS = "Stockholm, TyresoBostader: ", [
-        ["8904041236", "C804BBa0", "Alexey Klechikov"],
-        ["8903057985", "Malvina123!", "Elena Belan"],
+        ["8904041236", PASSWORDS["alex_1"], "Alexey Klechikov"],
+        ["8903057985", PASSWORDS["elena_1"], "Elena Belan"],
     ]
 
     try:
@@ -166,8 +167,8 @@ async def tyreso_bostader() -> str:
 
 async def upplands_brohus() -> str:
     message, ACCOUNTS = "Stockholm, Upplands-Brohus: ", [
-        ["198904041236", "C804BBa0", "Alexey Klechikov"],
-        ["elbl0001", "Malvina123!", "Elena Belan"],
+        ["198904041236", PASSWORDS["alex_1"], "Alexey Klechikov"],
+        ["elbl0001", PASSWORDS["elena_1"], "Elena Belan"],
     ]
 
     try:

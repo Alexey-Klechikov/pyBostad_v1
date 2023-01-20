@@ -1,0 +1,4 @@
+telegram-send
+python-telegram-bot==13.13
+pre-commit
+beautifulsoup4
