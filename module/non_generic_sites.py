@@ -4,23 +4,20 @@ import aiohttp  # type: ignore
 from bs4 import BeautifulSoup  # type: ignore
 from dateutil.relativedelta import relativedelta  # type: ignore
 
-from .secrets import PASSWORDS
+from .secrets import CREDENTIALS
 from .utils import _get, _post
 
 
 async def wallenstram() -> str:
-    message, ACCOUNTS = "Global, Wallenstam: ", [
-        ["alexey.klechikov@gmail.com", PASSWORDS["alex_2"], "Alexey Klechikov"],
-        ["elena.belan@hotmail.com", PASSWORDS["elena_2"], "Elena Belan"],
-    ]
+    message = "Global, Wallenstam: "
 
     try:
-        for account in ACCOUNTS:
+        for account in [CREDENTIALS[acc] for acc in ["alex_5", "elena_5"]]:
             async with aiohttp.ClientSession() as session:
                 url = "https://www.wallenstam.se/sv/mina-sidor/logga-in/Login/"
 
                 # 1 - Login
-                info = {"Username": account[0], "Password": account[1]}
+                info = {"Username": account["login"], "Password": account["password"]}
                 await _post(session, url, data=info, headers={})  # Login
 
                 # 2 - Kö
@@ -57,7 +54,7 @@ async def wallenstram() -> str:
                     > 0
                     else False
                 )
-                message += ("(OK - " if success else "(Error - ") + account[2] + ") "
+                message += ("(OK - " if success else "(Error - ") + account["username"] + ") "
                 message = ("" if success else "---") + message
     except:
         message = "---" + message
@@ -66,20 +63,17 @@ async def wallenstram() -> str:
 
 
 async def tyreso_bostader() -> str:
-    message, ACCOUNTS = "Stockholm, TyresoBostader: ", [
-        ["8904041236", PASSWORDS["alex_1"], "Alexey Klechikov"],
-        ["8903057985", PASSWORDS["elena_1"], "Elena Belan"],
-    ]
+    message = "Stockholm, TyresoBostader: "
 
     try:
-        for account in ACCOUNTS:
+        for account in [CREDENTIALS[acc] for acc in ["alex_1", "elena_1"]]:
             async with aiohttp.ClientSession() as session:
                 url = "https://www.tyresobostader.se/mina-sidor/logga-in"
                 # Login
                 base = "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$"
                 info = {
-                    f"{base}txtUserID": account[0],
-                    f"{base}txtPassword": account[1],
+                    f"{base}txtUserID": account["login"],
+                    f"{base}txtPassword": account["password"],
                     f"{base}btnLogin": "Logga in",
                 }
 
@@ -157,7 +151,7 @@ async def tyreso_bostader() -> str:
                     > 0
                     else False
                 )
-                message += ("(OK - " if success else "(Error - ") + account[2] + ") "
+                message += ("(OK - " if success else "(Error - ") + account["username"] + ") "
                 message = ("" if success else "---") + message
     except:
         message = "---" + message
@@ -166,19 +160,16 @@ async def tyreso_bostader() -> str:
 
 
 async def upplands_brohus() -> str:
-    message, ACCOUNTS = "Stockholm, Upplands-Brohus: ", [
-        ["198904041236", PASSWORDS["alex_1"], "Alexey Klechikov"],
-        ["elbl0001", PASSWORDS["elena_1"], "Elena Belan"],
-    ]
+    message = "Stockholm, Upplands-Brohus: "
 
     try:
-        for account in ACCOUNTS:
+        for account in [CREDENTIALS[acc] for acc in ["alex_4", "elena_4"]]:
             async with aiohttp.ClientSession() as session:
                 url = "https://marknad.upplands-brohus.se/pgLogin.aspx"
                 info = {
                     "__EVENTTARGET": "DoLogin",
                     "__EVENTARGUMENT": "{"
-                    + f'"method":"LOGIN","username":"{account[0]}","password":"{account[1]}"'
+                    + f'"method":"LOGIN","username":"{account["login"]}","password":"{account["password"]}"'
                     + "}",
                 }
 
@@ -194,8 +185,8 @@ async def upplands_brohus() -> str:
                 response_post = await _post(session, url, data=info, headers={})
                 soup = BeautifulSoup(response_post, "html.parser")
 
-                success = True if str(soup).find(account[2]) > 0 else False
-                message += ("(OK - " if success else "(Error - ") + account[2] + ") "
+                success = True if str(soup).find(account["username"]) > 0 else False
+                message += ("(OK - " if success else "(Error - ") + account["username"] + ") "
                 message = ("" if success else "---") + message
     except:
         message = "---" + message

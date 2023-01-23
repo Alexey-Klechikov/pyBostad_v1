@@ -1,4 +1,4 @@
-from .secrets import PASSWORDS
+from .secrets import CREDENTIALS
 from .utils import Account, Site
 
 SITES = (
@@ -7,8 +7,8 @@ SITES = (
         "https://mitt.heimstaden.com/mina-sidor/logga-in",
         "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$",
         [
-            Account("8904041236", PASSWORDS["alex_1"], "Alexey Klechikov"),
-            Account("8903057985", PASSWORDS["elena_1"], "Elena Belan"),
+            Account(**CREDENTIALS["alex_1"]),
+            Account(**CREDENTIALS["elena_1"]),
         ],
         {
             "{base}txtUserID": "{login}",
@@ -27,8 +27,8 @@ SITES = (
         "https://minasidor.rikshem.se/mina-sidor/logga-in/Default.aspx",
         "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col1$LoginControl1$",
         [
-            Account("198904041236", PASSWORDS["alex_1"], "Alexey Klechikov"),
-            Account("198903057985", PASSWORDS["elena_1"], "Elena Belan"),
+            Account(**CREDENTIALS["alex_1"]),
+            Account(**CREDENTIALS["elena_1"]),
         ],
         {
             "{base}txtUserID": "{login}",
@@ -39,27 +39,6 @@ SITES = (
             "__VIEWSTATE",
             "__VIEWSTATEGENERATOR",
             "__EVENTVALIDATION",
-        ],
-    ),
-    Site(
-        "Umea, Bostaden: ",
-        "https://www.bostaden.umea.se/mina-sidor/logga-in",
-        "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$",
-        [
-            Account("Alexey", PASSWORDS["alex_1"], "Alexey Klechikov"),
-        ],
-        {
-            "{base}txtUserID": "{login}",
-            "{base}txtPassword": "{password}",
-            "{base}btnLogin": "Logga in",
-            "{base}hdnSelectedTab": "p",
-        },
-        [
-            "__VIEWSTATE",
-            "__VIEWSTATEGENERATOR",
-            "__EVENTVALIDATION",
-            "ctl00$ctl01$hdnRequestVerificationToken",
-            "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$hdnSession",
         ],
     ),
     Site(
@@ -67,8 +46,8 @@ SITES = (
         "https://marknad.aranas.se/User/MyPagesLogin.aspx",
         "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$",
         [
-            Account("8904041236", PASSWORDS["alex_1"], "Alexey Klechikov"),
-            Account("8903057985", PASSWORDS["elena_1"], "Elena Belan"),
+            Account(**CREDENTIALS["alex_1"]),
+            Account(**CREDENTIALS["elena_1"]),
         ],
         {
             "{base}txtUserID": "{login}",
@@ -86,8 +65,8 @@ SITES = (
         "https://minasidor.lkf.se/User/MyPagesLogin.aspx",
         "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$",
         [
-            Account("8904041236", PASSWORDS["alex_1"], "Alexey Klechikov"),
-            Account("8903057985", PASSWORDS["elena_1"], "Elena Belan"),
+            Account(**CREDENTIALS["alex_1"]),
+            Account(**CREDENTIALS["elena_1"]),
         ],
         {
             "{base}txtUserID": "{login}",
@@ -106,8 +85,8 @@ SITES = (
         "https://minasidor.einarmattsson.se/User/MyPagesLogin.aspx",
         "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$",
         [
-            Account("8904041236", PASSWORDS["alex_1"], "Alexey Klechikov"),
-            Account("8903057985", PASSWORDS["elena_1"], "Elena Belan"),
+            Account(**CREDENTIALS["alex_1"]),
+            Account(**CREDENTIALS["elena_1"]),
         ],
         {
             "{base}txtUserID": "{login}",
@@ -126,8 +105,8 @@ SITES = (
         "https://www.forvaltaren.se/mina-sidor/logga-in",
         "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$",
         [
-            Account("8904041236", PASSWORDS["alex_1"], "Alexey Klechikov"),
-            Account("8903057985", PASSWORDS["elena_1"], "Elena Belan"),
+            Account(**CREDENTIALS["alex_1"]),
+            Account(**CREDENTIALS["elena_1"]),
         ],
         {
             "{base}txtUserID": "{login}",
@@ -141,8 +120,8 @@ SITES = (
         "https://minasidor.deromefastighet.se/Account/Login?returnUrl=",
         "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$",
         [
-            Account("8904041236", PASSWORDS["alex_1"], "Alexey Klechikov"),
-            Account("8903057985", PASSWORDS["elena_1"], "Elena Belan"),
+            Account(**CREDENTIALS["alex_1"]),
+            Account(**CREDENTIALS["elena_1"]),
         ],
         {
             "UserId": "{login}",
@@ -156,8 +135,8 @@ SITES = (
         "https://www.vasbyhem.se/Account/Login",
         "",
         [
-            Account("8904041236", PASSWORDS["alex_1"], "Alexey Klechikov"),
-            Account("8903057985", PASSWORDS["elena_1"], "Elena Belan"),
+            Account(**CREDENTIALS["alex_1"]),
+            Account(**CREDENTIALS["elena_1"]),
         ],
         {
             "UserID": "{login}",
@@ -171,8 +150,8 @@ SITES = (
         "https://www.hebafast.se/mina-sidor/logga-in",
         "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$",
         [
-            Account("8904041236", PASSWORDS["alex_1"], "Alexey Klechikov"),
-            Account("8903057985", PASSWORDS["elena_1"], "Elena Belan"),
+            Account(**CREDENTIALS["alex_1"]),
+            Account(**CREDENTIALS["elena_1"]),
         ],
         {
             "{base}txtUserID": "{login}",
@@ -191,8 +170,8 @@ SITES = (
         "https://bostad.hasselbyhem.se/User/MyPagesLogin.aspx",
         "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$",
         [
-            Account("8904041236", PASSWORDS["alex_1"], "Alexey Klechikov"),
-            Account("8903057985", PASSWORDS["elena_1"], "Elena Belan"),
+            Account(**CREDENTIALS["alex_1"]),
+            Account(**CREDENTIALS["elena_1"]),
         ],
         {
             "{base}txtUserID": "{login}",
@@ -209,9 +188,7 @@ SITES = (
         "Stockholm, EkeroBostader: ",
         "https://minasidor.ekerobostader.se/mina-sidor/logga-in",
         "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$",
-        [
-            Account("8904041236", PASSWORDS["alex_1"], "Alexey Klechikov"),
-        ],
+        [Account(**CREDENTIALS["alex_1"])],
         {
             "{base}txtUserID": "{login}",
             "{base}txtPassword": "{password}",
@@ -228,8 +205,8 @@ SITES = (
         "https://minasidor.haningebostader.se/",
         "",
         [
-            Account("8904041236", PASSWORDS["alex_1"], "Alexey Klechikov"),
-            Account("8903057985", PASSWORDS["elena_1"], "Elena Belan"),
+            Account(**CREDENTIALS["alex_1"]),
+            Account(**CREDENTIALS["elena_1"]),
         ],
         {
             "UserId": "{login}",
@@ -243,8 +220,8 @@ SITES = (
         "https://minasidor.sollentunahem.se/mina-sidor/logga-in",
         "",
         [
-            Account("8904041236", PASSWORDS["alex_1"], "Alexey Klechikov"),
-            Account("8903057985", PASSWORDS["elena_1"], "Elena Belan"),
+            Account(**CREDENTIALS["alex_1"]),
+            Account(**CREDENTIALS["elena_1"]),
         ],
         {
             "UserId": "{login}",
@@ -258,8 +235,8 @@ SITES = (
         "https://bostad.bjuvsbostader.se/mina-sidor/logga-in",
         "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$",
         [
-            Account("8904041236", PASSWORDS["alex_1"], "Alexey Klechikov"),
-            Account("8903057985", PASSWORDS["elena_1"], "Elena Belan"),
+            Account(**CREDENTIALS["alex_1"]),
+            Account(**CREDENTIALS["elena_1"]),
         ],
         {
             "{base}txtUserID": "{login}",
@@ -272,7 +249,7 @@ SITES = (
         "Lindkoping, Stangastaden: ",
         "https://www.stangastaden.se/loggain",
         "",
-        [Account("8904041236", PASSWORDS["alex_1"], "Alexey Klechikov")],
+        [Account(**CREDENTIALS["alex_1"])],
         {
             "username": "{login}",
             "password": "{password}",
@@ -280,14 +257,34 @@ SITES = (
         [],
     ),
     Site(
+        "Eda, Eda Bostad: ",
+        "https://marknad-bostadsbolaget.eda.se//User/MyPagesLogin.aspx",
+        "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$",
+        [
+            Account(**CREDENTIALS["alex_1"]),
+            Account(**CREDENTIALS["elena_1"]),
+        ],
+        {
+            "{base}txtUserID": "{login}",
+            "{base}txtPassword": "{password}",
+            "{base}btnLogin": "Logga in",
+            "{base}hdnSelectedTab": "p",
+        },
+        [
+            "__VIEWSTATE",
+            "__VIEWSTATEGENERATOR",
+            "__EVENTVALIDATION",
+            "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$hdnSession",
+            "ctl00$ctl01$hdnRequestVerificationToken",
+        ],
+    ),
+    Site(
         "Malmo, MalmoCityFastigheter: ",
         "https://minasidor.malmocityfastigheter.se//CK/User/MyPagesLogin.aspx",
         "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col1$LoginControl1$",
         [
-            Account(
-                "alexey.klechikov@gmail.com", PASSWORDS["alex_1"], "Alexey Klechikov"
-            ),
-            Account("belan.elena89@gmail.com", PASSWORDS["elena_1"], "Elena Belan"),
+            Account(**CREDENTIALS["alex_2"]),
+            Account(**CREDENTIALS["elena_2"]),
         ],
         {
             "{base}txtUserID": "{login}",
@@ -304,12 +301,11 @@ SITES = (
         ],
     ),
     Site(
-        "Eda, Eda Bostad: ",
-        "https://marknad-bostadsbolaget.eda.se//User/MyPagesLogin.aspx",
+        "Umea, Bostaden: ",
+        "https://www.bostaden.umea.se/mina-sidor/logga-in",
         "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$",
         [
-            Account("198904041236", PASSWORDS["alex_1"], "Alexey Klechikov"),
-            Account("198903057985", PASSWORDS["elena_1"], "Elena Belan"),
+            Account(**CREDENTIALS["alex_3"]),
         ],
         {
             "{base}txtUserID": "{login}",
@@ -321,8 +317,8 @@ SITES = (
             "__VIEWSTATE",
             "__VIEWSTATEGENERATOR",
             "__EVENTVALIDATION",
-            "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$hdnSession",
             "ctl00$ctl01$hdnRequestVerificationToken",
+            "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$hdnSession",
         ],
     ),
 )
