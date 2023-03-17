@@ -101,21 +101,6 @@ SITES = (
         ],
     ),
     Site(
-        "Stockholm, Forvaltaren: ",
-        "https://www.forvaltaren.se/mina-sidor/logga-in",
-        "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$",
-        [
-            Account(**CREDENTIALS["alex_1"]),
-            Account(**CREDENTIALS["elena_1"]),
-        ],
-        {
-            "{base}txtUserID": "{login}",
-            "{base}txtPassword": "{password}",
-            "{base}btnLogin": "Logga in",
-        },
-        ["__VIEWSTATE", "__VIEWSTATEGENERATOR", "__EVENTVALIDATION"],
-    ),
-    Site(
         "Global, DeromeFastighet: ",
         "https://minasidor.deromefastighet.se/Account/Login?returnUrl=",
         "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$",
@@ -246,17 +231,6 @@ SITES = (
         ["__VIEWSTATE", "__VIEWSTATEGENERATOR", "__EVENTVALIDATION"],
     ),
     Site(
-        "Lindkoping, Stangastaden: ",
-        "https://www.stangastaden.se/loggain",
-        "",
-        [Account(**CREDENTIALS["alex_1"])],
-        {
-            "username": "{login}",
-            "password": "{password}",
-        },
-        [],
-    ),
-    Site(
         "Eda, Eda Bostad: ",
         "https://marknad-bostadsbolaget.eda.se//User/MyPagesLogin.aspx",
         "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$",
@@ -298,6 +272,25 @@ SITES = (
             "__EVENTVALIDATION",
             "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col1$LoginControl1$hdnSession",
             "ctl00$ctl01$hdnRequestVerificationToken",
+        ],
+    ),
+    Site(
+        "Tyreso, TyresoBostader: ",
+        "https://www.tyresobostader.se/mina-sidor/logga-in",
+        "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$",
+        [
+            Account(**CREDENTIALS["alex_1"]),
+            Account(**CREDENTIALS["elena_1"]),
+        ],
+        {
+            "{base}txtUserID": "{login}",
+            "{base}txtPassword": "{password}",
+            "{base}btnLogin": "Logga in",
+        },
+        [
+            "__VIEWSTATE",
+            "__VIEWSTATEGENERATOR",
+            "__EVENTVALIDATION",
         ],
     ),
     Site(

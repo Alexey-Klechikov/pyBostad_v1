@@ -96,4 +96,6 @@ class Log:
 
             message += "\n"
 
+        message += "\n-- Needs manual walk:\n  > Forvaltaren\n  > HomeQ"
+        
         return message

@@ -1,7 +1,7 @@
 import asyncio
 from inspect import getmembers, isfunction
 
-from module import generic_sites, non_generic_sites, utils
+from src import generic_sites, non_generic_sites, utils
 
 
 async def main():
