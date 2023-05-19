@@ -96,6 +96,6 @@ class Log:
 
             message += "\n"
 
-        message += "\n-- Needs manual walk:\n  > Forvaltaren\n  > HomeQ"
+        message += "\n-- Needs manual walk:\n  > Forvaltaren\n  > HomeQ\n  > Upplands-Brohus"
         
         return message

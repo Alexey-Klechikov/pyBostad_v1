@@ -43,21 +43,18 @@ SITES = (
     ),
     Site(
         "Goteborg, Aranas: ",
-        "https://marknad.aranas.se/User/MyPagesLogin.aspx",
+        "https://marknad.aranas.se/mina-sidor/logga-in",
         "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$",
         [
             Account(**CREDENTIALS["alex_1"]),
             Account(**CREDENTIALS["elena_1"]),
         ],
         {
-            "{base}txtUserID": "{login}",
-            "{base}txtPassword": "{password}",
-            "{base}btnLogin": "Logga in",
+            "UserID": "{login}",
+            "Password": "{password}",
         },
         [
-            "__VIEWSTATE",
-            "__VIEWSTATEGENERATOR",
-            "__EVENTVALIDATION",
+            "__RequestVerificationToken",
         ],
     ),
     Site(

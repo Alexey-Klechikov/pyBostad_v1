@@ -64,43 +64,6 @@ async def wallenstram() -> str:
     return message
 
 
-async def upplands_brohus() -> str:
-    message = "Stockholm, Upplands-Brohus: "
-
-    try:
-        for account in [CREDENTIALS[acc] for acc in ["alex_4", "elena_4"]]:
-            async with aiohttp.ClientSession() as session:
-                url = "https://marknad.upplands-brohus.se/pgLogin.aspx"
-                info = {
-                    "__EVENTTARGET": "DoLogin",
-                    "__EVENTARGUMENT": "{"
-                    + f'"method":"LOGIN","username":"{account["login"]}","password":"{account["password"]}"'
-                    + "}",
-                }
-
-                response_get = await _get(session, url)
-                soup = BeautifulSoup(response_get, "html.parser")
-
-                for field in [
-                    "__VIEWSTATE",
-                    "__VIEWSTATEGENERATOR",
-                ]:
-                    info[field] = soup.find("input", attrs={"name": field})["value"]  # type: ignore
-
-                response_post = await _post(session, url, data=info, headers={})
-                soup = BeautifulSoup(response_post, "html.parser")
-
-                success = True if str(soup).find(account["username"]) > 0 else False
-                message += (
-                    ("(OK - " if success else "(Error - ") + account["username"] + ") "
-                )
-                message = ("" if success else "---") + message
-    except:
-        message = "---" + message
-
-    return message
-
-
 async def stangastaden() -> str:
     message = "Lindkoping, Stangastaden: "
 
@@ -119,7 +82,6 @@ async def stangastaden() -> str:
                 soup = BeautifulSoup(response_get, "html.parser")
 
                 success = True if str(soup).find(account["username"]) > 0 else False
-                print(str(soup))
 
                 message += (
                     ("(OK - " if success else "(Error - ") + account["username"] + ") "
