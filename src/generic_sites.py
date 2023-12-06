@@ -148,25 +148,6 @@ SITES = (
         ],
     ),
     Site(
-        "Stockholm, HasselbyHem: ",
-        "https://bostad.hasselbyhem.se/User/MyPagesLogin.aspx",
-        "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$",
-        [
-            Account(**CREDENTIALS["alex_1"]),
-            Account(**CREDENTIALS["elena_1"]),
-        ],
-        {
-            "{base}txtUserID": "{login}",
-            "{base}txtPassword": "{password}",
-            "{base}btnLogin": "Logga in",
-        },
-        [
-            "__VIEWSTATE",
-            "__VIEWSTATEGENERATOR",
-            "__EVENTVALIDATION",
-        ],
-    ),
-    Site(
         "Stockholm, EkeroBostader: ",
         "https://minasidor.ekerobostader.se/mina-sidor/logga-in",
         "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$",
