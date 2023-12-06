@@ -1,6 +1,5 @@
 import logging
 from dataclasses import dataclass
-from typing import List
 
 import aiohttp  # type: ignore
 import telegram_send  # type: ignore
@@ -83,7 +82,6 @@ class Log:
         telegram_send.send(messages=[self.parse_log(log)])
 
     def parse_log(self, log):
-
         message = ""
 
         for row in log:
@@ -96,6 +94,6 @@ class Log:
 
             message += "\n"
 
-        message += "\n-- Needs manual walk:\n  > Forvaltaren\n  > HomeQ\n  > Upplands-Brohus"
-        
+        message += "\n-- Needs manual walk:\n  > Forvaltaren\n  > Upplands-Brohus"
+
         return message
