@@ -1,11 +1,11 @@
 from datetime import datetime
 import json
 
-import aiohttp  # type: ignore
-from bs4 import BeautifulSoup  # type: ignore
-from dateutil.relativedelta import relativedelta  # type: ignore
+import aiohttp
+from bs4 import BeautifulSoup
+from dateutil.relativedelta import relativedelta
 
-from .secrets import CREDENTIALS
+from .credentials import CREDENTIALS
 from .utils import _get, _post
 
 
@@ -34,7 +34,7 @@ async def wallenstram() -> str:
                         "input", attrs={"id": "ViewModel_FormView_UserId"}
                     )[  # type: ignore
                         "value"
-                    ],  # type: ignore
+                    ],
                     "renewButton": "Förnya köplats",
                 }
                 url = "https://www.wallenstam.se/sv/mina-sidor/bostadsko/koinstallningar/UpdateQueue/"
@@ -51,6 +51,10 @@ async def wallenstram() -> str:
                     True
                     if str(soup).find(
                         str(datetime.today() + relativedelta(years=1))[:10]
+                    )
+                    > 0
+                    or str(soup).find(
+                        str(datetime.today() + relativedelta(years=2))[:10]
                     )
                     > 0
                     else False

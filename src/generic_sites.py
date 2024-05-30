@@ -1,26 +1,21 @@
-from .secrets import CREDENTIALS
+from .credentials import CREDENTIALS
 from .utils import Account, Site
 
 SITES = (
     Site(
         "Global, HeimStaden: ",
-        "https://mitt.heimstaden.com/mina-sidor/logga-in",
-        "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$",
+        "https://mitt.heimstaden.com/Account/Login",
+        "",
         [
             Account(**CREDENTIALS["alex_1"]),
             Account(**CREDENTIALS["elena_1"]),
         ],
         {
-            "{base}txtUserID": "{login}",
-            "{base}txtPassword": "{password}",
-            "{base}btnLogin": "Logga in",
+            "UserID": "{login}",
+            "Password": "{password}",
+            "RememberMe": "true",
         },
-        [
-            "__VIEWSTATE",
-            "__VIEWSTATEGENERATOR",
-            "__EVENTVALIDATION",
-            "ctl00$ctl01$hdnRequestVerificationToken",
-        ],
+        ["__RequestVerificationToken"],
     ),
     Site(
         "Global, RiksHem: ",
@@ -129,7 +124,7 @@ SITES = (
     ),
     Site(
         "Stockholm, HebaFast: ",
-        "https://www.hebafast.se/mina-sidor/logga-in",
+        "https://minasidor.hebafast.se/mina-sidor/logga-in",
         "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$",
         [
             Account(**CREDENTIALS["alex_1"]),
@@ -139,12 +134,14 @@ SITES = (
             "{base}txtUserID": "{login}",
             "{base}txtPassword": "{password}",
             "{base}btnLogin": "Logga in",
+            "{base}hdnSelectedTab": "p",
         },
         [
             "__VIEWSTATE",
             "__VIEWSTATEGENERATOR",
             "__EVENTVALIDATION",
             "ctl00$ctl01$hdnRequestVerificationToken",
+            "ctl00$ctl01$DefaultSiteContentPlaceHolder1$Col2$LoginControl1$hdnSession",
         ],
     ),
     Site(

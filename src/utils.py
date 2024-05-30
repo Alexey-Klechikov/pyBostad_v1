@@ -1,5 +1,6 @@
 import logging
 from dataclasses import dataclass
+from pprint import pprint
 
 import aiohttp  # type: ignore
 import telegram_send  # type: ignore
@@ -79,7 +80,13 @@ class Site:
 
 class Log:
     def __init__(self, log):
-        telegram_send.send(messages=[self.parse_log(log)])
+        message = self.parse_log(log)
+
+        try:
+            telegram_send.send(messages=[message])
+
+        except Exception as e:
+            pprint(message)
 
     def parse_log(self, log):
         message = ""
